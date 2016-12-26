@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rly (0.2.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  rly (~> 0.2.3)
+
+BUNDLED WITH
+   1.12.5
