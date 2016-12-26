@@ -4,10 +4,18 @@ require 'rly'
 # TODO crear structs ya
 
 class TransParser < Rly::Yacc
-  @@array = ''
   rule 'statements: statements statement
                    | statement
-                   ' do |sts,s,s2| puts s ; puts s2  end
+                   ' do |sts,s,s2|
+                    if s2
+                      s.value << "#{s2.value}\n"
+                      sts.value = s.value
+                    else
+                      sts.value = []
+                      sts.value << "#{s.value}\n"
+                    end
+                    puts "ARRAY SAYS #{sts.value}"
+                 end
 
   rule 'statement : expression
                    | function
@@ -31,7 +39,7 @@ class TransParser < Rly::Yacc
   rule 'creation : NAME ":" type' do |c,n,_,t| c.value = "#{t.value} #{n.value};" ; puts c.value end
 
   rule 'type: NAME
-            | POINTER NAME' do |t,pt,n| t.value = "#{pt.value}#{n if n}" end
+            | POINTER NAME' do |t,pt,n| t.value = "#{n if n}#{pt.value}" end
 
   rule 'opun : expression OPERATOR
              | OPERATOR expression' do end
@@ -58,10 +66,20 @@ class TransParser < Rly::Yacc
               | statement
               | empty' do end
 
-  rule 'object: NAME ":" "{" block "}"' do end
+  rule 'object: NAME ":" "{" block "}"' do |o,n,_,_,b,_|
+              o.value = CStruct.new(n.value,b.value)
+            end
 
   rule 'block: block creation
-             | creation' do end
+             | creation' do |b, b2, c|
+             if c
+               b2.value << c.value
+               b.value = b2.value
+             else
+               b.value = []
+               b.value << b2.value
+             end
+           end
 
   rule 'empty: ' do end
 end

@@ -1,12 +1,12 @@
 require 'rly'
 
 class TransLexer < Rly::Lex
+  token :COMMENT, /\/\/.+$/
   literals ';:{}().=[]"\','
   ignore " \t\n"
   token :ARROW , /->/
   token :POINTER, /\*+/
   token :OPERATOR, /[+\-*&%\/\=.]{1,2}/
-  token :COMMENT, /#.+$/
   token :FN , /fn/
   token :NUMBER, /\d+/ do |t|
       t.value = t.value.to_i

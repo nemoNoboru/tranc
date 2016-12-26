@@ -1,2 +1,9 @@
+// testing
+
 i : i32
-moitroll : *i32
+m : *i32
+
+node : {
+  m : i32
+  p : *p32
+}
