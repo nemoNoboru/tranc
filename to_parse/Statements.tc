@@ -1,9 +1,18 @@
-// testing
+// verbose mode
 
-i : i32
-m : *i32
+fn main(args is int, argv is **char) returns int do
+  printf("Hello World\n")
+  return(0)
+end
 
-node : {
-  m : i32
-  p : *p32
+// hardcode mode
+
+fn main(args : int , argv : **char) -> int {
+  printf("Hello World\n")
+  return(0)
 }
+
+// int main(int argc, char** argv){
+//  printf("Hello world\n")
+//  return 0
+// }

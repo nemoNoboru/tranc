@@ -1,8 +1,1 @@
-// testing
-i32 i;
-i32* m;
-
-typedef struct node {
-  i32 m;
-  p32* p;
-} node;
+// verbose mode// hardcode mode// int main(int argc, char** argv){//  printf("Hello world\n")//  return 0// }
