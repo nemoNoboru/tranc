@@ -11,9 +11,7 @@ class CStruct
     bff = ''
     bff +=
     "typedef struct #{@name} {\n"
-    @explist.each do |e|
-      bff += "#{e}\n"
-    end
-    bff += "} #{@name};"
+    bff += writeBlock @explist
+    bff += "} #{@name}"
   end
 end

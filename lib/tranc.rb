@@ -2,6 +2,8 @@ require_relative "tranc/lexer.rb"
 require_relative "tranc/parser.rb"
 require_relative "tranc/struct.rb"
 require_relative "tranc/chainer.rb"
+require_relative "tranc/function.rb"
+require_relative "tranc/blocker.rb"
 
 class Tranc
   def load(filename)

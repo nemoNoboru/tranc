@@ -1,1 +1,8 @@
-// verbose mode// hardcode mode// int main(int argc, char** argv){//  printf("Hello world\n")//  return 0// }
+int main( int argc , char** argv ) {
+	printf("hello world");
+};
+
+typedef struct node {
+	int i;
+	void* myvar;
+} node;
