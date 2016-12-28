@@ -1,8 +1,9 @@
-fn main(argc : int , argv: **char ) returns int do
-  printf("hello world")
-end
+counter : {
+  var : int
+}
 
-node : do
-  i : int
-  myvar : *void
-end
+fn counter.inc() -> int {
+  i : *int = &self.var
+  i++
+  return(i)
+}

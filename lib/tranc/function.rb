@@ -16,3 +16,16 @@ class CFunction
     buff += "}"
   end
 end
+
+class CMethod < CFunction
+  def initialize(prefix,name,args,type,expressions)
+    super(name,args,type,expressions)
+    @prefix = prefix.value
+  end
+
+  def to_s
+    buff = "#{@type} #{@prefix}#{@name.capitalize}( #{@prefix} *self#{' , ' unless @args}#{writeArgs} ) {\n"
+    buff += writeBlock @expressions
+    buff += "}"
+  end
+end

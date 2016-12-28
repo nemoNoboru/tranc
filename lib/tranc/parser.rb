@@ -1,7 +1,8 @@
 require 'rly'
 
 # TODO parsear loops
-# TODO Manejar expressions ya
+# TODO diferenciar mejor operadores unarios y binarios
+# TODO crear una lookup table para metodos para poder generar codigo bien en las invocaciones
 
 class TransParser < Rly::Yacc
   rule 'statements: statements statement
@@ -13,7 +14,6 @@ class TransParser < Rly::Yacc
 
   rule 'statement : expression
                    | function
-                   | creation
                    | object
                    | method
                    | COMMENT' do |s,e| s.value = "#{e.value}; \n\n"end
@@ -21,6 +21,7 @@ class TransParser < Rly::Yacc
   rule 'expression : invok
                    | opun
                    | opbin
+                   | creation
                    | NAME
                    | blockf
                    | NUMBER
@@ -29,6 +30,9 @@ class TransParser < Rly::Yacc
                    ' do |a,b| a.value = b.value end
   rule 'expressions : expressions expression
                     | expression' do |a,b,c| chain(a,b,c) end
+
+  rule 'method : FN NAME OPERATOR NAME "(" args ")" ARROW type OBLOCK expressions CBLOCK' do |f,_,prefix,_,name,_,args,_,_,type,_,exp,_|
+    f.value = CMethod.new(prefix,name,args,type,exp) end
 
   rule 'creation : NAME IS type' do |c,n,_,t| c.value = "#{t.value} #{n.value}" ; puts c.value end
 
@@ -48,7 +52,6 @@ class TransParser < Rly::Yacc
               | expression
               | empty' do |a,b,_,c| chain(a,b,c) end
 
-  rule 'method : FN NAME "." NAME "(" args ")" ARROW type OBLOCK expressions CBLOCK' do end
 
   rule 'function : FN NAME "(" args ")" ARROW type OBLOCK expressions CBLOCK' do |f,_,name,_,args,_,_,type,_,exp,_|
   f.value = CFunction.new(name,args,type,exp) end

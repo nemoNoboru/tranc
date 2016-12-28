@@ -1,8 +1,9 @@
-int main( int argc , char** argv ) {
-	printf("hello world");
-};
+typedef struct counter {
+	int var;
+} counter;
 
-typedef struct node {
-	int i;
-	void* myvar;
-} node;
+int counterInc( counter *self ) {
+	int* i=&self->var;
+	i++;
+  return(*i);
+};
