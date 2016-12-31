@@ -9,7 +9,7 @@ class TransLexer < Rly::Lex
   ignore " \t\n"
   token :ARROW , /->|returns/
   token :POINTER, /\*+/
-  token :OPERATOR, /[\[\]+\-*&%\/\=.]{1,2}/
+  token :OPERATOR, /[\[\]+\-*&%\/\=]{1,2}/
   token :FN , /fn/
   token :NUMBER, /\d+/ do |t|
       t.value = t.value.to_i

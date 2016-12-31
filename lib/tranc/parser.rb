@@ -2,9 +2,18 @@ require 'rly'
 
 # TODO parsear loops
 # TODO diferenciar mejor operadores unarios y binarios
-# TODO crear una lookup table para metodos para poder generar codigo bien en las invocaciones
 
 class TransParser < Rly::Yacc
+
+  def addCreation(var,type)
+    @invoker ||= Invoker.new
+    @invoker.add(var,type)
+  end
+
+  def resolve(o,f,i)
+    @invoker.resolve(o,f,i)
+  end
+
   rule 'statements: statements statement
                    | statement
                    ' do |a,b,c|
@@ -19,6 +28,7 @@ class TransParser < Rly::Yacc
                    | COMMENT' do |s,e| s.value = "#{e.value}; \n\n"end
 
   rule 'expression : invok
+                   | minvok
                    | opun
                    | opbin
                    | creation
@@ -31,10 +41,12 @@ class TransParser < Rly::Yacc
   rule 'expressions : expressions expression
                     | expression' do |a,b,c| chain(a,b,c) end
 
+  rule 'minvok : NAME "." NAME "(" iargs ")" ' do |m,n,_,f,_,i,_| m.value = resolve(n,f,i) end
+
   rule 'method : FN NAME OPERATOR NAME "(" args ")" ARROW type OBLOCK expressions CBLOCK' do |f,_,prefix,_,name,_,args,_,_,type,_,exp,_|
     f.value = CMethod.new(prefix,name,args,type,exp) end
 
-  rule 'creation : NAME IS type' do |c,n,_,t| c.value = "#{t.value} #{n.value}" ; puts c.value end
+  rule 'creation : NAME IS type' do |c,n,_,t| c.value = Creation.new(n,t); addCreation(n,t) end
 
   rule 'type: NAME
             | POINTER NAME' do |t,pt,n| t.value = "#{n if n}#{pt.value}" end

@@ -4,6 +4,7 @@ require_relative "tranc/struct.rb"
 require_relative "tranc/chainer.rb"
 require_relative "tranc/function.rb"
 require_relative "tranc/blocker.rb"
+require_relative "tranc/invoker.rb"
 
 class Tranc
   def load(filename)

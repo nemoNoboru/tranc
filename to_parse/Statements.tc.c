@@ -1,9 +1,7 @@
-typedef struct counter {
-	int var;
-} counter;
+#define i32 int
+void i32Select( i32 *self ){*self++}
 
-int counterInc( counter *self ) {
-	int* i=&self->var;
-	i++;
-  return(*i);
-};
+int main(){
+	i32 i;
+	i32Select( &i );
+}
